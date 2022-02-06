@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TokoController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/toko/dashboard', [TokoController::class, 'dashboard']);
 Route::resource('/toko', TokoController::class);
+Route::get('/login',[LoginController::class,'login']);
+Route::post('/login',[LoginController::class,'postlogin']);
+Route::post('/logout',[LoginController::class,'logout']);
+Route::resource('/transaksi',TransaksiController::class);

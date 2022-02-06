@@ -17,8 +17,9 @@ class InvenTokos extends Migration
         Schema::create('inven_tokos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_barang');
-            $table->string('jumlah');
+            $table->integer('jumlah');
             $table->date('tanggal_masuk');
+            $table->integer('harga_satuan');
             $table->timestamps();
         });
     }

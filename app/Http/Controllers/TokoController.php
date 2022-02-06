@@ -9,13 +9,14 @@ class TokoController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+    *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
-        return 'Rachayu Plastik';
+        $inven_toko = Toko::all();
+        return view('toko.index', ['inventokos' => $inven_toko]);
     }
 
     /**
@@ -25,7 +26,8 @@ class TokoController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('toko.create');
     }
 
     /**
@@ -36,7 +38,16 @@ class TokoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            
+            'nama_barang' => 'required',
+            'jumlah'=>'required',
+            'tanggal_masuk'=>'required',
+            'harga_satuan'=>'required'
+        ]);
+
+        toko::create($request->all());
+        return redirect('/toko')->with('success',  'Stock Saved!');
     }
 
     /**
@@ -58,7 +69,8 @@ class TokoController extends Controller
      */
     public function edit(Toko $toko)
     {
-        //
+        $inven_toko = Toko::find($toko->id);
+        return view('toko.edit', compact('inven_toko'));
     }
 
     /**
@@ -70,7 +82,18 @@ class TokoController extends Controller
      */
     public function update(Request $request, Toko $toko)
     {
-        //
+        $request->validate([
+            
+            'nama_barang' => 'required',
+            'jumlah'=>'required',
+            'tanggal_masuk'=>'required',
+            'harga_satuan'=>'required'
+        ]);
+
+        $toko->update($request->all());
+        $harga = Toko::where('id',$request->barang_id)->first();
+        // $request['jumlah'] = $request->jumlah - $->;
+        return redirect('/toko')->with('success',  'Stock Updated!');
     }
 
     /**
@@ -81,6 +104,12 @@ class TokoController extends Controller
      */
     public function destroy(Toko $toko)
     {
-        //
+        $toko->delete();
+        return redirect('/toko')->with('success', 'Stock Deleted');
+    
+    }
+    
+    public function dashboard(){
+        return view ('toko.dashboard');
     }
 }
